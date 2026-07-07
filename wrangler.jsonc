@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "developer-gateway",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-07",
+
+  // Workers Logs — captures console.* output from the fetch handler.
+  "observability": { "enabled": true },
+
+  // REGISTRY_SOURCE selects where the route registry is read from:
+  //   "kv"    -> Cloudflare KV, key "apps" (production default, below)
+  //   "local" -> bundled routes.json (set in .dev.vars for `wrangler dev`)
+  "vars": {
+    "REGISTRY_SOURCE": "kv"
+  },
+
+  // KV namespace holding the route registry under key "apps".
+  // Create it, then paste the ids:
+  //   wrangler kv namespace create ROUTES
+  //   wrangler kv namespace create ROUTES --preview
+  "kv_namespaces": [
+    {
+      "binding": "ROUTES",
+      "id": "REPLACE_WITH_KV_NAMESPACE_ID",
+      "preview_id": "REPLACE_WITH_KV_PREVIEW_ID"
+    }
+  ]
+
+  // Deploy step (Phase 5): bind the Worker to the APEX host only.
+  // "saurabh-yadav.me/*" does NOT match "yt.saurabh-yadav.me", so existing
+  // subdomains keep serving unchanged. The apex DNS record must be proxied
+  // (orange cloud) for this route to attach.
+  //
+  // "routes": [
+  //   { "pattern": "saurabh-yadav.me/*", "zone_name": "saurabh-yadav.me" }
+  // ]
+  //
+  // ADMIN_TOKEN guards the /__gateway/* admin endpoints. Store it as a secret,
+  // not a plaintext var:
+  //   wrangler secret put ADMIN_TOKEN
+}

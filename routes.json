@@ -1,0 +1,6 @@
+[
+  { "id": "portfolio", "route": "/",          "target": "http://localhost:3000", "enabled": true, "stripPrefix": false },
+  { "id": "youtube",   "route": "/youtube",   "target": "http://localhost:3001", "enabled": true, "stripPrefix": false },
+  { "id": "icebox",    "route": "/icebox",    "target": "http://localhost:3002", "enabled": true, "stripPrefix": false },
+  { "id": "novafetch", "route": "/novafetch", "target": "http://localhost:3003", "enabled": true, "stripPrefix": false }
+]
